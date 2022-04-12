@@ -5,6 +5,7 @@ const schema = new Schema<IBotModel>({
   name: { type: String, required: true },
   description: String,
   model: { type: String, required: true },
+  processTree: { type: String, required: true },
 });
 
 const BotModel = model<IBotModel>("BotModel", schema);
