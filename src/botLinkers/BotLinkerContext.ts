@@ -1,6 +1,7 @@
 import BotLinker from "src/interfaces/BotLinkerStrategyInterface";
 import IBotModel from "src/interfaces/BotModelInterface";
 import RobotFrameworkLinker from "./robotFrameworkLinker/RobotFrameworkLinker";
+import TasktLinker from "./tasktLinker/TasktLinker";
 
 class BotLinkerContext {
   private linker?: BotLinker;
@@ -16,6 +17,9 @@ class BotLinkerContext {
       case "robotframework":
       case "rf":
         this.setLinker(new RobotFrameworkLinker());
+        break;
+      case "taskt":
+        this.setLinker(new TasktLinker());
         break;
       default:
         throw new Error("Sorry, " + linkerName + " is not yet supported.");
