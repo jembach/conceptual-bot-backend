@@ -1,4 +1,4 @@
-import BotLinker from "src/interfaces/BotLinkerStrategyInterface";
+import BotLinkerStrategy from "src/interfaces/BotLinkerStrategyInterface";
 import IBotModel, {
   IProcessTree,
   IProcessTreeNodeInfo,
@@ -6,11 +6,12 @@ import IBotModel, {
 } from "src/interfaces/BotModelInterface";
 import robotFrameworkMapping from "./robotFrameworkMapping";
 
-class RobotFrameworkLinker implements BotLinker {
+class RobotFrameworkLinker implements BotLinkerStrategy {
   readonly indentationCharacter = "  ";
   botModel?: IBotModel;
   processTree?: IProcessTreeStructure;
   processTreeNodes?: Record<string, IProcessTreeNodeInfo>;
+  keywords: Record<string, string> = {};
 
   linkBot(botModel: IBotModel): string {
     this.botModel = botModel;
@@ -23,11 +24,67 @@ class RobotFrameworkLinker implements BotLinker {
     this.processTree = parsedProcessTree.tree;
     this.processTreeNodes = parsedProcessTree.nodeInfo;
 
-    robotLines = robotLines.concat(this.generateSettingsSection().join("\n"));
+    const settings = this.generateSettingsSection().join("\n");
+    const tasks = this.generateTasksSection().join("\n");
+    const keywords = this.generateKeywordsSection().join("\n");
+
+    robotLines = robotLines.concat(settings);
     robotLines.push("\n");
-    robotLines = robotLines.concat(this.generateTasksSection().join("\n"));
+    robotLines = robotLines.concat(keywords);
+    robotLines.push("\n");
+    robotLines = robotLines.concat(tasks);
 
     return robotLines.join("\n");
+  }
+
+  /**
+   * Reads the keywords generated during the task section and returns the formatted keyword section.
+   *
+   * @remarks
+   * This method must be executed after generateTasksSection.
+   * @returns array of formatted lines
+   */
+  private generateKeywordsSection(): string[] {
+    const keywordsLines: string[] = ["*** Keywords ***"];
+
+    for (const keyword in this.keywords) {
+      keywordsLines.push(keyword);
+      keywordsLines.push(this.indentationCharacter + this.keywords[keyword]);
+    }
+
+    return keywordsLines;
+  }
+
+  /**
+   * Parses the process tree and build the formatted section of tasks.
+   *
+   * @returns array of formatted lines
+   */
+  private generateTasksSection(): string[] {
+    let tasksLines = ["*** Tasks ***"];
+    tasksLines = tasksLines.concat(
+      this.parseProcessTree([this.processTree!], 0)
+    );
+    return tasksLines;
+  }
+
+  /**
+   * Creates the settings section of RobotFramework, including libraries
+   *
+   * @returns array of formatted lines
+   */
+  private generateSettingsSection(): string[] {
+    let settingsLines: string[] = ["*** Settings ***"];
+
+    settingsLines.push("Documentation\t" + this.botModel!.name);
+
+    if (this.botModel!.description) {
+      settingsLines.push("...\t" + this.botModel!.description);
+    }
+
+    settingsLines = settingsLines.concat(this.getUsedRFLibraries());
+
+    return settingsLines;
   }
 
   private parseProcessTree(
@@ -44,19 +101,31 @@ class RobotFrameworkLinker implements BotLinker {
         processTreePart instanceof String
       ) {
         console.log("Found leaf " + processTreePart);
+        const elementLabel = this.getLabelForElement(processTreePart as string);
+
+        this.keywords[elementLabel] = this.getKeywordForElement(
+          processTreePart as string
+        );
 
         lines.push(
-          this.indentationCharacter.repeat(indentation) +
-            this.getKeywordForElement(processTreePart as string)
+          this.indentationCharacter.repeat(indentation) + elementLabel
         );
+
         return;
       }
 
       for (const subProcessTreeKey in processTreePart) {
         console.log("we have a " + subProcessTreeKey);
         if (subProcessTreeKey.includes("Gateway")) {
+          lines.push(
+            this.indentationCharacter.repeat(indentation) +
+              this.getLabelForElement(subProcessTreeKey)
+          );
           lines = lines.concat(
-            this.parseDecision(processTreePart[subProcessTreeKey], indentation)
+            this.parseDecision(
+              processTreePart[subProcessTreeKey],
+              indentation + 1
+            )
           );
         } else {
           lines = lines.concat(
@@ -82,37 +151,18 @@ class RobotFrameworkLinker implements BotLinker {
       lines = lines.concat(
         this.parseProcessTree([processTree], indentation + 1)
       );
-      lines.push(this.indentationCharacter.repeat(indentation) + "ELSE");
+      lines.push(this.indentationCharacter.repeat(indentation) + "ELSE IF");
     });
+    lines.pop();
+    lines.push(this.indentationCharacter.repeat(indentation) + "END");
     return lines;
   }
 
-  private generateKeywordsSection(): string[] {
-    return [];
-  }
-
-  private generateTasksSection(): string[] {
-    let tasksLines = ["*** Tasks ***"];
-    tasksLines = tasksLines.concat(
-      this.parseProcessTree([this.processTree!], 0)
-    );
-    return tasksLines;
-  }
-
-  private generateSettingsSection(): string[] {
-    let settingsLines: string[] = ["*** Settings ***"];
-
-    settingsLines.push("Documentation\t" + this.botModel!.name);
-
-    if (this.botModel!.description) {
-      settingsLines.push("...\t" + this.botModel!.description);
-    }
-
-    settingsLines = settingsLines.concat(this.getUsedRFLibraries());
-
-    return settingsLines;
-  }
-
+  /**
+   * Analyzes the node infos of the process tree and creates the formatted library section.
+   *
+   * @returns array of formatted lines
+   */
   private getUsedRFLibraries(): string[] {
     const usedLibraries: string[] = [];
 
@@ -135,6 +185,10 @@ class RobotFrameworkLinker implements BotLinker {
     );
 
     return usedLibraries;
+  }
+
+  private getLabelForElement(element: string): string {
+    return this.processTreeNodes![element].label;
   }
 
   private getLibraryForElement(element: string): string {
