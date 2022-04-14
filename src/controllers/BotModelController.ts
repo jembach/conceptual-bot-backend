@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import BotModel from "../models/BotModel";
 import BaseController from "../controllers/BaseController";
+import BotLinkerContext from "../botLinkers/botLinkerContext";
 
 class BotModelController extends BaseController {
   getBotModels = async (req: Request, res: Response): Promise<void | any> => {
@@ -20,7 +21,15 @@ class BotModelController extends BaseController {
       if (!botModel) {
         return BaseController.notFound(res);
       }
-      res.send(botModel);
+
+      if (req.query.type) {
+        const botLinkerContext: BotLinkerContext = new BotLinkerContext(
+          req.query.type.toString()
+        );
+        res.send(botLinkerContext.linkBot(botModel));
+      } else {
+        res.send(botModel);
+      }
     } catch (error) {
       return BaseController.fail(res, error);
     }
