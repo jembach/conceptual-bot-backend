@@ -4,6 +4,7 @@ import IBotModel, {
   IProcessTreeNodeInfo,
   IProcessTreeStructure,
 } from "src/interfaces/BotModelInterface";
+import { flattenContextContainersInProcessTree } from "../../utils/processTreeUtils";
 import { create } from "xmlbuilder2";
 import tasktMapping from "./tasktMapping";
 
@@ -12,6 +13,22 @@ interface ScriptCommand {
   "@CommandName": string;
   "@SelectionName": string;
 }
+
+const ifScriptCommand: ScriptCommand = {
+  "@xsi:type": "BeginIfCommand",
+  "@CommandName": "BeginIfCommand",
+  "@SelectionName": "Begin If",
+};
+const elseScriptCommand: ScriptCommand = {
+  "@xsi:type": "ElseCommand",
+  "@CommandName": "ElseCommand",
+  "@SelectionName": "Else",
+};
+const endIfScriptCommand: ScriptCommand = {
+  "@xsi:type": "EndIfCommand",
+  "@CommandName": "EndIfCommand",
+  "@SelectionName": "End If",
+};
 
 class TasktLinker implements BotLinkerStrategy {
   botModel?: IBotModel;
@@ -26,10 +43,12 @@ class TasktLinker implements BotLinkerStrategy {
     const parsedProcessTree: IProcessTree = JSON.parse(
       this.botModel.processTree
     );
+    const containerFlattenedTree: IProcessTree =
+      flattenContextContainersInProcessTree(parsedProcessTree);
 
-    this.processTreeNodes = parsedProcessTree.nodeInfo;
+    this.processTreeNodes = containerFlattenedTree.nodeInfo;
 
-    this.commands = this.parseProcessTree([parsedProcessTree.tree]);
+    this.commands = this.parseProcessTree([containerFlattenedTree.tree]);
 
     this.setupBotDocument();
     const botDocument = create(this.botObject);
@@ -91,11 +110,14 @@ class TasktLinker implements BotLinkerStrategy {
   private parseDecision(
     processTreeArray: (IProcessTreeStructure | string)[]
   ): string[] {
-    let commands: any[] = [];
+    let commands: any[] = [ifScriptCommand];
 
     processTreeArray.forEach((processTree) => {
       commands = commands.concat(this.parseProcessTree([processTree]));
+      commands.push(elseScriptCommand);
     });
+    commands.pop();
+    commands.push(endIfScriptCommand);
     return commands;
   }
 
@@ -105,6 +127,9 @@ class TasktLinker implements BotLinkerStrategy {
 
   private getCommandForElement(element: string): string {
     const concept = this.processTreeNodes![element].concept;
+    if (!(concept in tasktMapping!)) {
+      throw new Error("No mapping for " + concept + " to taskt found.");
+    }
     return tasktMapping[concept].command;
   }
 }

@@ -3,12 +3,17 @@ export interface TasktCommand {
 }
 
 const tasktMapping: Record<string, TasktCommand> = {
-  ExcelReadCell: { command: "ExcelApplicationGetCell" },
-  GSuiteGetEmails: { command: "GoogleGetEmails" },
-  GSuiteReadCellValue: { command: "GoogleReadCell" },
-  GSuiteSendEmail: { command: "GoogleSetEmail" },
+  ExcelOpenWorkbook: { command: "ExcelOpenWorkbookCommand" },
+  ExcelReadCellValue: { command: "ExcelGetCellCommand" },
   BinaryDecision: { command: "BinaryDecision" },
-  OutlookGetEmails: { command: "OutlookApplicationGetEmails" },
+  OutlookGetEmails: { command: "OutlookGetEmailsCommand" },
+  OutlookSendEmail: { command: "OutlookEmailCommand" },
+  BrowserOpen: { command: "SeleniumBrowserCreateCommand" },
+  BrowserOpenURL: { command: "SeleniumBrowserNavigateURLCommand" },
+  BrowserGetText: { command: "SeleniumBrowserElementActionCommand" },
+  BrowserClose: { command: "SeleniumBrowserCloseCommand" },
+  CreateFile: { command: "WriteTextFileCommand" },
+  AppendTextToFile: { command: "WriteTextFileCommand" },
 };
 
 export default tasktMapping;
