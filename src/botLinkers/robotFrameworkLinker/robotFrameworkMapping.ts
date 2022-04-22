@@ -8,6 +8,7 @@ const robotFrameworkMapping: Record<string, RobotFrameworkKeyword> = {
   GSuiteGetEmails: { library: "Excel.Application", keyword: "Read Cell" },
   GSuiteReadCellValue: { library: "Excel.Application", keyword: "Read Cell" },
   GSuiteSendEmail: { library: "Excel.Application", keyword: "Read Cell" },
+  BinaryDecision: { library: "", keyword: "" },
   OutlookOpen: {
     library: "RPA.Outlook.Application",
     keyword: "Open Application",
@@ -18,7 +19,7 @@ const robotFrameworkMapping: Record<string, RobotFrameworkKeyword> = {
   },
   OutlookSendEmail: {
     library: "RPA.Outlook.Application",
-    keyword: "Send Email",
+    keyword: "Send Message",
   },
   BrowserOpen: { library: "RPA.Browser.Selenium", keyword: "Open Browser" },
   BrowserOpenURL: { library: "RPA.Browser.Selenium", keyword: "Go To" },

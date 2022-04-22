@@ -52,6 +52,10 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
    * @returns array of formatted lines
    */
   private generateKeywordsSection(): string[] {
+    if (Object.keys(this.keywords).length === 0) {
+      return [];
+    }
+
     const keywordsLines: string[] = ["*** Keywords ***"];
 
     for (const keyword in this.keywords) {
@@ -96,11 +100,12 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
 
   private parseProcessTree(
     processTreeArray: (IProcessTreeStructure | string)[],
-    indentation: number
+    indentation: number,
+    generateKeywords: boolean = false
   ): string[] {
     let lines: string[] = [];
 
-    console.group("New round");
+    // console.group("New round");
 
     processTreeArray.forEach((processTreePart) => {
       if (
@@ -110,13 +115,22 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
         console.log("Found leaf " + processTreePart);
         const elementLabel = this.getLabelForElement(processTreePart as string);
 
-        this.keywords[elementLabel] = this.getKeywordForElement(
-          processTreePart as string
-        );
-
-        lines.push(
-          this.indentationCharacter.repeat(indentation) + elementLabel
-        );
+        if (generateKeywords) {
+          this.keywords[elementLabel] = this.getKeywordForElement(
+            processTreePart as string
+          );
+          lines.push(
+            this.indentationCharacter.repeat(indentation) + elementLabel
+          );
+        } else {
+          lines.push(
+            this.indentationCharacter.repeat(indentation) + elementLabel
+          );
+          lines.push(
+            this.indentationCharacter.repeat(indentation + 1) +
+              this.getKeywordForElement(processTreePart as string)
+          );
+        }
 
         return;
       }
@@ -138,7 +152,8 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
           lines = lines.concat(
             this.parseProcessTree(
               processTreePart[subProcessTreeKey],
-              indentation
+              indentation,
+              generateKeywords
             )
           );
         }
@@ -156,7 +171,7 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
     ];
     processTreeArray.forEach((processTree) => {
       lines = lines.concat(
-        this.parseProcessTree([processTree], indentation + 1)
+        this.parseProcessTree([processTree], indentation + 1, true)
       );
       lines.push(this.indentationCharacter.repeat(indentation) + "ELSE IF");
     });
@@ -177,7 +192,10 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
 
     for (const node in this.processTreeNodes) {
       try {
-        setOfLibraries.add(this.getLibraryForElement(node));
+        const libraryOfNode = this.getLibraryForElement(node);
+        if (libraryOfNode) {
+          setOfLibraries.add(libraryOfNode);
+        }
       } catch (error) {
         throw new Error(
           "No mapping for " +
