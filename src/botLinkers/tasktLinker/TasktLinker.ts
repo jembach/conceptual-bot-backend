@@ -80,10 +80,18 @@ class TasktLinker implements BotLinkerStrategy {
         typeof processTreePart === "string" ||
         processTreePart instanceof String
       ) {
-        console.log("Found leaf " + processTreePart);
+        // console.log("Found leaf " + processTreePart);
+
+        const commandForElement = this.getCommandForElement(
+          processTreePart as string
+        );
+
+        if (!commandForElement) {
+          return;
+        }
         const scriptCommand: ScriptCommand = {
-          "@xsi:type": this.getCommandForElement(processTreePart as string),
-          "@CommandName": this.getCommandForElement(processTreePart as string),
+          "@xsi:type": commandForElement,
+          "@CommandName": commandForElement,
           "@SelectionName": this.getLabelForElement(processTreePart as string),
         };
 
@@ -92,7 +100,7 @@ class TasktLinker implements BotLinkerStrategy {
       }
 
       for (const subProcessTreeKey in processTreePart) {
-        console.log("we have a " + subProcessTreeKey);
+        // console.log("we have a " + subProcessTreeKey);
         if (subProcessTreeKey.includes("Gateway")) {
           commands = commands.concat(
             this.parseDecision(processTreePart[subProcessTreeKey])
