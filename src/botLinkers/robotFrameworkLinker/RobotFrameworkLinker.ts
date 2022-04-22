@@ -4,6 +4,7 @@ import IBotModel, {
   IProcessTreeNodeInfo,
   IProcessTreeStructure,
 } from "src/interfaces/BotModelInterface";
+import { flattenContextContainersInProcessTree } from "../../utils/processTreeUtils";
 import robotFrameworkMapping from "./robotFrameworkMapping";
 
 class RobotFrameworkLinker implements BotLinkerStrategy {
@@ -20,9 +21,15 @@ class RobotFrameworkLinker implements BotLinkerStrategy {
     const parsedProcessTree: IProcessTree = JSON.parse(
       this.botModel.processTree
     );
+    const containerFlattenedTree: IProcessTree =
+      flattenContextContainersInProcessTree(parsedProcessTree);
 
-    this.processTree = parsedProcessTree.tree;
-    this.processTreeNodes = parsedProcessTree.nodeInfo;
+    // console.dir(containerFlattenedTree, {
+    //   depth: null,
+    // });
+
+    this.processTree = containerFlattenedTree.tree;
+    this.processTreeNodes = containerFlattenedTree.nodeInfo;
 
     const settings = this.generateSettingsSection().join("\n");
     const tasks = this.generateTasksSection().join("\n");
