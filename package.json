@@ -2,13 +2,13 @@
   "name": "conceptual-bot-backend",
   "version": "1.0.0",
   "description": "The back end for managing conceptual RPA bots.",
+  "license": "MIT",
   "main": "server.ts",
   "scripts": {
     "dev": "tsnd --respawn src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maximilian Voelker",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
