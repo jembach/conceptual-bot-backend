@@ -1,3 +1,4 @@
+import { BpmoConcept } from "src/interfaces/BpmoConcepts";
 import { RpaContextContainer } from "src/interfaces/RpaOperation";
 
 export const rpaContextContainers: Record<string, RpaContextContainer> = {
@@ -21,7 +22,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                 id: "rpa-operation",
                 iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
               },
-              bpmoConcept: "AtomicActivity",
+              bpmoConcept: BpmoConcept.AtomicActivity,
               label: "Automation Operation",
               comment:
                 "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -52,7 +53,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             comment: "An application to open and navigate web pages.",
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
       {
         id: "BrowserOpenURL",
@@ -73,7 +74,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                   id: "rpa-operation",
                   iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
                 },
-                bpmoConcept: "AtomicActivity",
+                bpmoConcept: BpmoConcept.AtomicActivity,
                 label: "Automation Operation",
                 comment:
                   "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -106,7 +107,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             comment: "An application to open and navigate web pages.",
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
     ],
     cleanupSteps: [
@@ -126,7 +127,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                 id: "rpa-operation",
                 iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
               },
-              bpmoConcept: "AtomicActivity",
+              bpmoConcept: BpmoConcept.AtomicActivity,
               label: "Automation Operation",
               comment:
                 "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -157,7 +158,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             comment: "An application to open and navigate web pages.",
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
     ],
   },
@@ -181,7 +182,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                 id: "rpa-operation",
                 iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
               },
-              bpmoConcept: "AtomicActivity",
+              bpmoConcept: BpmoConcept.AtomicActivity,
               label: "Automation Operation",
               comment:
                 "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -232,7 +233,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             },
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
       {
         id: "ExcelOpenWorkbook",
@@ -253,7 +254,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                   id: "rpa-operation",
                   iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
                 },
-                bpmoConcept: "AtomicActivity",
+                bpmoConcept: BpmoConcept.AtomicActivity,
                 label: "Automation Operation",
                 comment:
                   "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -326,7 +327,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             comment: "Data stored in tabular form.",
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
     ],
     cleanupSteps: [
@@ -349,7 +350,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                   id: "rpa-operation",
                   iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
                 },
-                bpmoConcept: "AtomicActivity",
+                bpmoConcept: BpmoConcept.AtomicActivity,
                 label: "Automation Operation",
                 comment:
                   "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -422,7 +423,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             comment: "Data stored in tabular form.",
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
       {
         id: "ExcelClose",
@@ -440,7 +441,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
                 id: "rpa-operation",
                 iri: "http://www.semanticweb.org/maximilian.voelker/ontologies/rpa-operations#rpa-operation",
               },
-              bpmoConcept: "AtomicActivity",
+              bpmoConcept: BpmoConcept.AtomicActivity,
               label: "Automation Operation",
               comment:
                 "AutomationOperations are the most prominent type of RPA operations. They access external data, operate on applications, call services, or automate aspects of the operating system.",
@@ -491,7 +492,7 @@ export const rpaContextContainers: Record<string, RpaContextContainer> = {
             },
           },
         },
-        bpmoConcept: "AtomicActivity",
+        bpmoConcept: BpmoConcept.AtomicActivity,
       },
     ],
   },

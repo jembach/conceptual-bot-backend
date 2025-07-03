@@ -1,4 +1,4 @@
-import { BpmoConcept } from "./bpmoConcepts";
+import { BpmoConcept } from "./BpmoConcepts";
 
 export interface RpaBaseElement {
   id: string;
