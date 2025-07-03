@@ -1,5 +1,5 @@
-import BotLinker from "src/interfaces/BotLinkerStrategyInterface";
-import IBotModel from "src/interfaces/BotModelInterface";
+import BotLinker from "../interfaces/BotLinkerStrategyInterface";
+import IBotModel from "../interfaces/BotModelInterface";
 import RobotFrameworkLinker from "./robotFrameworkLinker/RobotFrameworkLinker";
 import TasktLinker from "./tasktLinker/TasktLinker";
 

@@ -1,9 +1,9 @@
-import BotLinkerStrategy from "src/interfaces/BotLinkerStrategyInterface";
+import BotLinkerStrategy from "../../interfaces/BotLinkerStrategyInterface";
 import IBotModel, {
   IProcessTree,
   IProcessTreeNodeInfo,
   IProcessTreeStructure,
-} from "src/interfaces/BotModelInterface";
+} from "../../interfaces/BotModelInterface";
 import { flattenContextContainersInProcessTree } from "../../utils/processTreeUtils";
 import robotFrameworkMapping from "./robotFrameworkMapping";
 

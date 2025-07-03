@@ -1,8 +1,8 @@
 import {
   IProcessTree,
   IProcessTreeStructure,
-} from "src/interfaces/BotModelInterface";
-import { RpaContextContainer, RpaOperation } from "src/interfaces/RpaOperation";
+} from "../interfaces/BotModelInterface";
+import { RpaContextContainer, RpaOperation } from "../interfaces/RpaOperation";
 import { rpaContextContainers } from "./ontologyParser";
 
 export function flattenContextContainersInProcessTree(

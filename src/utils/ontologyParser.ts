@@ -1,5 +1,5 @@
-import { BpmoConcept } from "src/interfaces/BpmoConcepts";
-import { RpaContextContainer } from "src/interfaces/RpaOperation";
+import { BpmoConcept } from "../interfaces/BpmoConcepts";
+import { RpaContextContainer } from "../interfaces/RpaOperation";
 
 export const rpaContextContainers: Record<string, RpaContextContainer> = {
   WithBrowser: {
