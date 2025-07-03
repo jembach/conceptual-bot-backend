@@ -30,9 +30,7 @@ class App {
     db.on("error", console.error.bind(console, "connection error:"));
     db.once("open", App.startApiServer);
 
-    mongoose.connect(
-      `mongodb://${process.env.MONGO_HOST || "127.0.0.1:27017"}`
-    );
+    mongoose.connect(process.env.MONGO_URL ?? `mongodb://127.0.0.1:27017`);
     mongoose.set("returnOriginal", false);
   }
 }
