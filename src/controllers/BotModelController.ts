@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import BotModel from "../models/BotModel";
 import BaseController from "../controllers/BaseController";
-import BotLinkerContext from "../botLinkers/botLinkerContext";
+import BotLinkerContext from "src/botLinkers/BotLinkerContext";
 
 class BotModelController extends BaseController {
   getBotModels = async (req: Request, res: Response): Promise<void | any> => {
