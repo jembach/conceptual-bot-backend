@@ -5,7 +5,9 @@ import BotLinkerContext from "../botLinkers/BotLinkerContext";
 
 class BotModelController extends BaseController {
   getBotModels = async (req: Request, res: Response): Promise<void | any> => {
-    const botModels = await BotModel.find({});
+    const botModels = await BotModel.find(
+      req.query.type ? { type: req.query.type.toString() } : {}
+    );
 
     try {
       res.send(botModels);
