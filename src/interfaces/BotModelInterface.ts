@@ -1,21 +1,29 @@
 export enum BotModelType {
-  BOT = "bot",
-  MODULE = "module",
-  TEMPLATE = "template",
-  DECORATOR = "decorator",
+  BOT = "Bot",
+  FACADE = "Facade",
+  TEMPLATE_METHOD = "TemplateMethod",
+  DECORATOR = "Decorator",
+  PROXY = "Proxy",
+  CHAIN_OF_RESPONSIBILITY = "ChainOfResponsibility",
 }
 
-interface IBotModel {
+export interface IInjectionPoint {
+  id: string;
+  label: string;
+  accessedData: IBotAccessedData[];
+}
+
+export interface IBotModel {
   name: string;
   description?: string;
   type?: BotModelType;
   model: string;
   processTree: string;
-  accessedData?: IBotAccessesedData[];
-  templatePlaceholders?: { type: string }[];
+  accessedData?: IBotAccessedData[];
+  injectionPoints?: IInjectionPoint[];
 }
 
-interface IBotAccessesedData extends IRpaBaseElement {
+export interface IBotAccessedData extends IRpaBaseElement {
   concept: IRpaBaseElement;
 }
 

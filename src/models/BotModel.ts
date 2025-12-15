@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
-import IBotModel, { IRpaBaseElement } from "../interfaces/BotModelInterface";
+import IBotModel, {
+  IBotAccessedData,
+  IRpaBaseElement,
+} from "../interfaces/BotModelInterface";
 
 const rpaBaseElementSchema = new Schema<IRpaBaseElement>(
   {
@@ -12,8 +15,22 @@ const rpaBaseElementSchema = new Schema<IRpaBaseElement>(
 );
 
 rpaBaseElementSchema.add({
-  type: { type: rpaBaseElementSchema, required: true },
+  type: { type: rpaBaseElementSchema },
 });
+
+const accessedDataSchema = new Schema<{ type: string; data: IBotAccessedData }>(
+  {
+    type: { type: String, required: true },
+    data: {
+      id: { type: String, required: true },
+      iri: { type: String, required: true },
+      label: { type: String, required: false },
+      comment: { type: String, required: false },
+      concept: rpaBaseElementSchema,
+    },
+  },
+  { _id: false }
+);
 
 const schema = new Schema<IBotModel>({
   name: { type: String, required: true },
@@ -26,19 +43,14 @@ const schema = new Schema<IBotModel>({
   },
   model: { type: String, required: true },
   processTree: { type: String, required: true },
-  accessedData: [
+  accessedData: [accessedDataSchema],
+  injectionPoints: [
     {
-      type: { type: String, required: true },
-      data: {
-        id: { type: String, required: true },
-        iri: { type: String, required: true },
-        label: { type: String, required: false },
-        comment: { type: String, required: false },
-        concept: rpaBaseElementSchema,
-      },
+      id: { type: String, required: true },
+      label: { type: String, required: true },
+      accessedData: [accessedDataSchema],
     },
   ],
-  templatePlaceholders: [{ type: String, required: true }],
 });
 
 const BotModel = model<IBotModel>("BotModel", schema);
