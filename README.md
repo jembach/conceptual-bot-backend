@@ -1,5 +1,13 @@
 # OntoRPA Backend
 
-_This repository contains the backend code for the OntoRPA platform, written in TypeScript, using Node with [Express](https://expressjs.com/)._
+This is an extension implementation of the original OntoRPA platform that incorporates reuse concepts developed in a master thesis written by Jonas Embach at the [Business Process Technology Group](https://bpt.hpi.uni-potsdam.de/) at the [Hasso-Plattner-Institute](https://hpi.de/).
 
-Please see the [meta repository](https://github.com/bptlab/onto-rpa-platform) for the OntoRPA platform for an [overview of its capabilities](https://github.com/bptlab/onto-rpa-platform/tree/main?tab=readme-ov-file#ontorpa-platform), screencasts and [installation instructions](https://github.com/bptlab/onto-rpa-platform?tab=readme-ov-file#conceptual-rpa-bot-modeler).
+For a comprehensive overview of the OntoRPA platform's capabilities, see the [meta repository](https://github.com/bptlab/onto-rpa-platform).
+
+## Quick Start
+
+- **Frontend Repository**: [onto-rpa-frontend](https://github.com/jembach/onto-rpa-frontend)
+- **Live Demo**: [OntoRPA Productive Instance](https://onto-rpa-frontend.vercel.app/)
+- **Screencast**: [Using OntoRPA with Reuse Concepts](https://youtu.be/fuGXfHTuicA)
+
+For installation instructions and platform overview, refer to the [main OntoRPA platform repository](https://github.com/bptlab/onto-rpa-platform?tab=readme-ov-file#conceptual-rpa-bot-modeler).
